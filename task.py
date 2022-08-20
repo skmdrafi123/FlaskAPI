@@ -2,13 +2,13 @@ from bson import BSON
 from flask import Flask, request, jsonify
 import mysql.connector
 import pymongo
-from bson.json_util import dumps
+from bson.json_util import dumps, loads
 from bson.objectid import ObjectId
 
 mydb = mysql.connector.connect(
   host="localhost",
   user="rafi",
-  password="2wsx@WSX",
+  password="12345678",
   database="rafi"
 )
 
@@ -63,8 +63,9 @@ def MongoPersons():
     if (request.method == 'GET'):
         db1 = client['mongotest']
         coll = db1['Persons']
-        x = coll.find_one()
-        return jsonify((str(x)))
+        x = coll.find({})
+        json_data = dumps(list(x), indent=2)
+        return json_data
 
     if (request.method == 'POST'):
         LastName = request.json['LastName']
